@@ -72,10 +72,13 @@ void opcontrol(void);
 #endif
 
 #ifdef __cplusplus
-/**
- * You can add C++-only headers here
- */
-//#include <iostream>
+
+#include "CustomHeaders/drive.hpp"
+#include "CustomHeaders/claws.hpp"
+#include "CustomHeaders/globals.hpp"
+#include "CustomHeaders/autons.hpp"
+#include "CustomHeaders/lift.hpp"
+
 #endif
 
 #endif  // _PROS_MAIN_H_
