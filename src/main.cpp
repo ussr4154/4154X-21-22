@@ -1,4 +1,5 @@
 #include "main.h"
+#include "autoSelect/selection.h"
 
 void initialize() {
 
