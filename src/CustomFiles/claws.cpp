@@ -1,9 +1,25 @@
 #include "main.h"
 
 //Helpers
-void closeClaw(){}
+class clawClass {
+    private:
+        int clawOpenPos;
+        int clawClosePos;
 
-void openClaw(){}
+    public:
+
+        void open(){
+            while (clawPot.get_value() < clawOpenPos) {
+                goalClaw = 127;
+            }
+        }
+
+        void close(){
+            while (clawPot.get_value() > clawClosePos) {
+                goalClaw = -127;
+            }
+        }
+};
 
 void dumpTruckUp(){}
 
@@ -22,7 +38,7 @@ void notchToggle(){
     }
     else if(notch == true){
         if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
-            goalNotch.setValue(false);
+            goalNotch.set_value(false);
             notch = false;
         }
     }
@@ -31,16 +47,17 @@ void notchToggle(){
 void clawToggle(){
 
     bool claw = false;
+    clawClass theClaw;
 
     if(claw == false){
         if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            closeClaw();
+            theClaw.close();
             claw = true;
         }
     }
     else if(claw == true){
         if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            openClaw();
+            theClaw.close();
             claw = false;
         }
     }
@@ -52,14 +69,18 @@ void dumpTruckToggle(){
 
     if(dumpTruck == false){
         if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+          while (dumpTruck == false){
             dumpTruckUp();
             dumpTruck = true;
+          }
         }
     }
     else if(dumpTruck == true){
         if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+          while (dumpTruck == true) {
             dumpTruckDown();
             dumpTruck = false;
+          }
         }
     }
 }

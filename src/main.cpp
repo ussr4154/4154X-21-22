@@ -2,7 +2,8 @@
 #include "autoSelect/selection.h"
 
 void initialize() {
-
+    clawPot.calibrate();
+    dumpTruckPot.calibrate();
 }
 
 void disabled() {}

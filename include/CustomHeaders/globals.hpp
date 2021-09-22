@@ -12,6 +12,8 @@ extern pros::Motor lift;
 extern pros::ADIDigitalOut goalNotch;
 extern pros::ADIDigitalOut leftWing;
 extern pros::ADIDigitalOut rightWing;
+extern pros::ADIAnalogIn clawPot;
+extern pros::ADIAnalogIn dumpTruckPot;
 
 //Controller
 extern pros::Controller controller;
