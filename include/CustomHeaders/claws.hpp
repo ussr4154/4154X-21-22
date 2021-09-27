@@ -1,5 +1,7 @@
 #include "main.h"
 
+class clawClass;
+
 //Helpers
 void closeClaw();
 void openClaw();
