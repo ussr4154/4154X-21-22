@@ -1,4 +1,6 @@
 #include "main.h"
+#include "autoSelect/selection.h"
+using namespace okapi;
 
 std::shared_ptr<OdomChassisController> chassis =
   ChassisControllerBuilder()
@@ -16,5 +18,3 @@ std::shared_ptr<AsyncMotionProfileController> profileController =
     })
     .withOutput(chassis)
     .buildMotionProfileController();
-
-void 

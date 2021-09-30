@@ -5,11 +5,11 @@ void setLift(int power){
 }
 
 void setLiftMotor(){
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-        setLift(127);
-    }
-    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
         setLift(-127);
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        setLift(127);
     }
     else{
         setLift(0);

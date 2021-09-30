@@ -6,7 +6,7 @@ extern pros::Motor backLeft;
 extern pros::Motor backRight;
 extern pros::Motor goalClaw;
 extern pros::Motor dumpTruck;
-extern pros::Motor lift;
+extern pros::Motor liftMotor;
 
 //Sensors
 extern pros::ADIDigitalOut goalNotch;

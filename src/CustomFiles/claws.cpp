@@ -1,25 +1,37 @@
 #include "main.h"
 
 //Helpers
-class clawClass {
-    private:
-        int clawOpenPos;
-        int clawClosePos;
 
-    public:
+int clawOpenPos;
+int clawClosePos;
 
-        void open(){
-            while (clawPot.get_value() < clawOpenPos) {
-                goalClaw = 127;
-            }
-        }
+void openClaw(){
+    while (clawPot.get_value() < clawOpenPos) {
+        goalClaw = 127;
+    }
+}
 
-        void close(){
-            while (clawPot.get_value() > clawClosePos) {
-                goalClaw = -127;
-            }
-        }
-};
+void closeClaw(){
+    while (clawPot.get_value() > clawClosePos) {
+        goalClaw = -127;
+    }
+}
+
+void holdToOpenClaw(int power){
+    goalClaw = power;
+}
+
+void holdToCloseClaw(int power){
+    goalClaw = -power;
+}
+        
+void printClawPosition(){
+    while(true){
+        std::cout << "Claw Pot Reading:" << clawPot.get_value();
+        pros::delay(20);
+    }
+}
+
 
 void dumpTruckUp(){}
 
@@ -28,8 +40,6 @@ void dumpTruckDown(){}
 bool dumpTruckBoolean = false; // Down = false, Up = true
 bool notch = false; // Down = false, up = true
 bool claw = false; //Open = false, Closed = true
-
-clawClass theClaw; //Creates an instance of the class "clawClass"
 
 //Toggles
 void notchToggle(){
@@ -54,18 +64,18 @@ void notchToggle(){
 void clawToggle(){
 
     if(claw == false){
-        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
             pros::delay(1);
         }
-        theClaw.close();
+        closeClaw();
         claw = true;
 
     }
     else {
-        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
             pros::delay(1);
         }
-        theClaw.open();
+        openClaw();
         claw = false;
     }
 }
@@ -73,7 +83,7 @@ void clawToggle(){
 void dumpTruckToggle(){
 
     if(dumpTruckBoolean == false){
-        while (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        while (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
             pros::delay(1);
         }
         dumpTruckUp();
@@ -81,11 +91,35 @@ void dumpTruckToggle(){
     }
 
     else {
-        while (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        while (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
             pros::delay(1);
         }
         dumpTruckDown();
         dumpTruck = false;
 
     }
+}
+
+void setClawMotors(){
+
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+        clawToggle();
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
+        holdToOpenClaw(127);
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
+        holdToCloseClaw(127);
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+        dumpTruckToggle();
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
+        notchToggle();
+    }
+    else{
+        dumpTruck = 0;
+        goalClaw = 0;
+    }
+
 }

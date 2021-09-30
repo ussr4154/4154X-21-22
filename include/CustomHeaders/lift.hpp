@@ -1,5 +1,5 @@
 #include "main.h"
 
-void setDrive();
+void setLift();
 
-void setDriveMotors();
+void setLiftMotor();
