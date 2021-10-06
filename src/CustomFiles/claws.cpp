@@ -2,8 +2,8 @@
 
 //Helpers
 
-int clawOpenPos;
-int clawClosePos;
+double clawOpenPos = 4095.0;
+double clawClosePos = 90.0;
 
 void openClaw(){
     while (clawPot.get_value() < clawOpenPos) {
@@ -24,18 +24,16 @@ void holdToOpenClaw(int power){
 void holdToCloseClaw(int power){
     goalClaw = -power;
 }
-        
-void printClawPosition(){
-    while(true){
-        std::cout << "Claw Pot Reading:" << clawPot.get_value();
-        pros::delay(20);
-    }
+
+
+
+void holdToRaiseDumpTruck(int power){
+    dumpTruck = power;
 }
 
-
-void dumpTruckUp(){}
-
-void dumpTruckDown(){}
+void holdToLowerDumpTruck(int power){
+    dumpTruck = -power;
+}
 
 bool dumpTruckBoolean = false; // Down = false, Up = true
 bool notch = false; // Down = false, up = true
@@ -61,10 +59,10 @@ void notchToggle(){
     }
 }
 
-void clawToggle(){
+/*void clawToggle(){
 
     if(claw == false){
-        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
             pros::delay(1);
         }
         closeClaw();
@@ -79,8 +77,8 @@ void clawToggle(){
         claw = false;
     }
 }
-
-void dumpTruckToggle(){
+*/
+/*void dumpTruckToggle(){
 
     if(dumpTruckBoolean == false){
         while (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
@@ -99,27 +97,34 @@ void dumpTruckToggle(){
 
     }
 }
+*/
 
 void setClawMotors(){
 
-    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-        clawToggle();
-    }
-    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
+    if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
         holdToOpenClaw(127);
     }
-    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
         holdToCloseClaw(127);
     }
-    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-        dumpTruckToggle();
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
+        holdToRaiseDumpTruck(127);
+    }
+    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
+        holdToLowerDumpTruck(127);
     }
     else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
         notchToggle();
     }
     else{
+
         dumpTruck = 0;
         goalClaw = 0;
+        /*if (claw == false)
+            goalClaw = 0;
+        else
+            goalClaw = -30;
+        */
     }
 
 }
