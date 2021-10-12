@@ -14,7 +14,9 @@ void initialize(){
 
 void disabled() {}
 
-void autonomous() {}
+void autonomous() {
+  midGoalAuton();
+}
 
 void opcontrol() {
 

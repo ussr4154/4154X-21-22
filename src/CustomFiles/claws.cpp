@@ -59,13 +59,13 @@ void notchToggle(){
     }
 }
 
-/*void clawToggle(){
+void clawToggle(){
 
     if(claw == false){
         while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
             pros::delay(1);
         }
-        closeClaw();
+        holdToCloseClaw();
         claw = true;
 
     }
@@ -77,27 +77,7 @@ void notchToggle(){
         claw = false;
     }
 }
-*/
-/*void dumpTruckToggle(){
 
-    if(dumpTruckBoolean == false){
-        while (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-            pros::delay(1);
-        }
-        dumpTruckUp();
-        dumpTruck = true;
-    }
-
-    else {
-        while (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-            pros::delay(1);
-        }
-        dumpTruckDown();
-        dumpTruck = false;
-
-    }
-}
-*/
 
 void setClawMotors(){
 
@@ -113,18 +93,12 @@ void setClawMotors(){
     else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
         holdToLowerDumpTruck(127);
     }
-    else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
-        notchToggle();
-    }
+
     else{
 
         dumpTruck = 0;
         goalClaw = 0;
-        /*if (claw == false)
-            goalClaw = 0;
-        else
-            goalClaw = -30;
-        */
+
     }
 
 }

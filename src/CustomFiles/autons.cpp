@@ -4,8 +4,8 @@ using namespace okapi;
 
 std::shared_ptr<OdomChassisController> chassis =
   ChassisControllerBuilder()
-    .withMotors({5,4},{7,6})
-    .withDimensions(AbstractMotor::gearset::green, {{3.25_in, 16.5_in}, imev5GreenTPR})
+    .withMotors({9,4},{2,1})
+    .withDimensions({AbstractMotor::gearset::green, (36.0 / 60.0)}, {{3.25_in, 16.5_in}, imev5GreenTPR})
     .withOdometry()
     .buildOdometry();
 
@@ -18,3 +18,20 @@ std::shared_ptr<AsyncMotionProfileController> profileController =
     })
     .withOutput(chassis)
     .buildMotionProfileController();
+
+void midGoalAuton(){
+  
+  chassis->setState({0_ft,0_ft});
+
+  frontLeft.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  frontRight.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  backLeft.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  backRight.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+
+    chassis->setMaxVelocity(180);
+
+  profileController->generatePath(
+      {{0_ft, 0_ft, 0_deg}, {4.5_ft, 1.5_ft, 0_deg}}, "goal2Mid");
+    profileController->setTarget("goal2Mid");
+    profileController->waitUntilSettled();
+}
