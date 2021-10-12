@@ -12,3 +12,4 @@ void notchToggle();
 void clawToggle();
 void dumpTruckToggle();
 void setClawMotors();
+void holdToCloseClaw(int power);

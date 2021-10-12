@@ -65,7 +65,7 @@ void clawToggle(){
         while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
             pros::delay(1);
         }
-        holdToCloseClaw();
+        holdToCloseClaw(127);
         claw = true;
 
     }
