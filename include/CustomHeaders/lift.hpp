@@ -1,5 +1,5 @@
 #include "main.h"
 
-void setLift();
+void setLift(int power);
 
 void setLiftMotor();

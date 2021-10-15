@@ -13,3 +13,5 @@ void clawToggle();
 void dumpTruckToggle();
 void setClawMotors();
 void holdToCloseClaw(int power);
+void holdToLowerDumpTruck(int power);
+void holdToRaiseDumpTruck(int power);

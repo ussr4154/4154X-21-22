@@ -15,7 +15,25 @@ void initialize(){
 void disabled() {}
 
 void autonomous() {
-  midGoalAuton();
+if (pros::competition::is_connected()){
+  if(selector::auton == 1)
+    twoGoalAuton();
+  if(selector::auton == -1)
+    twoGoalAuton();
+  if(selector::auton == 2)
+    awpAuton();
+  if (selector::auton == -2)
+    awpAuton();
+  if(selector::auton == -3)
+    doNothing();
+  if(selector::auton == 3)
+    doNothing();
+  if(selector::auton == 0)
+    skills();
+  }
+else{
+  twoGoalAuton();
+  }
 }
 
 void opcontrol() {

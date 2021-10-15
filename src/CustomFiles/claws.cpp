@@ -25,8 +25,6 @@ void holdToCloseClaw(int power){
     goalClaw = -power;
 }
 
-
-
 void holdToRaiseDumpTruck(int power){
     dumpTruck = power;
 }
@@ -35,49 +33,7 @@ void holdToLowerDumpTruck(int power){
     dumpTruck = -power;
 }
 
-bool dumpTruckBoolean = false; // Down = false, Up = true
-bool notch = false; // Down = false, up = true
-bool claw = false; //Open = false, Closed = true
-
 //Toggles
-void notchToggle(){
-
-
-    if(notch == false){
-        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
-            pros::delay(1);
-        }
-        goalNotch.set_value(false);
-        notch = true;
-    }
-    else if(notch == true){
-        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)){
-            pros::delay(1);
-        }
-        goalNotch.set_value(true);
-        notch = false;
-    }
-}
-
-void clawToggle(){
-
-    if(claw == false){
-        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X)){
-            pros::delay(1);
-        }
-        holdToCloseClaw(127);
-        claw = true;
-
-    }
-    else {
-        while(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-            pros::delay(1);
-        }
-        openClaw();
-        claw = false;
-    }
-}
-
 
 void setClawMotors(){
 
@@ -93,12 +49,9 @@ void setClawMotors(){
     else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B)){
         holdToLowerDumpTruck(127);
     }
-
     else{
-
         dumpTruck = 0;
         goalClaw = 0;
-
     }
 
 }

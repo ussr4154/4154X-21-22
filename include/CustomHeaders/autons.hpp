@@ -1,3 +1,6 @@
 #include "main.h"
 
-void midGoalAuton();
+void twoGoalAuton();
+void awpAuton();
+void doNothing();
+void skills();
