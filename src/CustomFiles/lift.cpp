@@ -1,7 +1,8 @@
 #include "main.h"
 
 void setLift(int power){
-    liftMotor = power;
+    leftLift = power;
+    rightLift = power;
 }
 
 void setLiftMotor(){

@@ -6,14 +6,12 @@ extern pros::Motor backLeft;
 extern pros::Motor backRight;
 extern pros::Motor goalClaw;
 extern pros::Motor dumpTruck;
-extern pros::Motor liftMotor;
+extern pros::Motor leftLift;
+extern pros::Motor rightLift;
 
 //Sensors
-extern pros::ADIDigitalOut goalNotch;
-extern pros::ADIDigitalOut leftWing;
-extern pros::ADIDigitalOut rightWing;
+extern pros::ADIAnalogIn liftPot;
 extern pros::ADIAnalogIn clawPot;
-extern pros::ADIAnalogIn dumpTruckPot;
 
 //Controller
 extern pros::Controller controller;

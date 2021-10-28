@@ -5,7 +5,7 @@
 //selector configuration
 #define HUE 230
 #define DEFAULT 1
-#define AUTONS "Two Goal", "1 Goal + Awp", "Do Nothing"
+#define AUTONS "Mid Goal", "Right Goal", "Left Goal"
 namespace selector{
 
 extern int auton;
