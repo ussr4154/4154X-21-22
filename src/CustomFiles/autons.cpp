@@ -122,14 +122,14 @@ void liftForPlatform(){
 }
 
 void liftForDriving(){
-  if(liftPot.get_value() < 1250){
-    while(liftPot.get_value() < 1250){
+  if(liftPot.get_value() < 1350){
+    while(liftPot.get_value() < 1350){
       leftLift = -127;
       rightLift = -127;
     }
   }
   else{
-    while(liftPot.get_value() > 1250){
+    while(liftPot.get_value() > 1350){
       leftLift = 127;
       rightLift = 127;
     }
@@ -141,7 +141,6 @@ void liftForDriving(){
 void closeClaw(){
   holdToCloseClaw(127);
   pros::delay(500);
-  holdToCloseClaw(0);
 }
 
 void openClaw(){
@@ -203,7 +202,7 @@ void leftGoalAuton(){
 }
 
 void skills(){
-  midGoalAuton();
+  testerAuton();
 }
 
 void testerAuton(){
@@ -214,16 +213,38 @@ void testerAuton(){
   goBackward(500);
   pros::delay(500);
   raiseDumpTruck();
-  goForward(500);
-  chassis->turnAngle(-10_deg);
-  goForward(500);
-  chassis->turnAngle(-87_deg);
-  goBackward(200);
+  goForward(100);
+  chassis->turnAngle(-5_deg);
+  goForward(300);
+  chassis->turnAngle(-85_deg);
+  goBackward(350);
+
+  chassis->setMaxVelocity(200);
 
   profileController->generatePath(
-    {{0_ft, 0_ft, 0_deg}, {4.2_ft, 0.3_ft, 0_deg}}, "goal1Skills");
+    {{0_ft, 0_ft, 0_deg}, {4.4_ft, 1_ft, 0_deg}}, "goal1Skills");
   profileController->setTarget("goal1Skills");
   profileController->waitUntilSettled();
   closeClaw();
-  liftForDriving();
+
+  profileController->generatePath(
+    {{0_ft, 0_ft, 0_deg}, {6_ft, 0_ft, 0_deg}}, "goal1Dropoff");
+  profileController->setTarget("goal1Dropoff");
+  profileController->waitUntilSettled();
+
+  openClaw();
+  
+  profileController->generatePath(
+    {{0_ft, 0_ft, 0_deg}, {1_ft, 0_ft, 0_deg}}, "goal2Back");
+  profileController->setTarget("goal2Back", true);
+  profileController->waitUntilSettled();
+
+  chassis->setState({0_ft,0_ft});
+
+  chassis->turnAngle(90_deg);
+
+  goForward(400);
+
+  closeClaw();
+
 }
