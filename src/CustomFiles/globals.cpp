@@ -13,6 +13,7 @@ pros::Motor rightLift(5, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_
 //Sensors & Pistons
 pros::ADIAnalogIn liftPot('B');
 pros::ADIAnalogIn clawPot ('A');
+pros::Imu inertial(13);
 
 //Controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);

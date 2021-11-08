@@ -12,6 +12,7 @@ extern pros::Motor rightLift;
 //Sensors
 extern pros::ADIAnalogIn liftPot;
 extern pros::ADIAnalogIn clawPot;
+extern pros::Imu inertial;
 
 //Controller
 extern pros::Controller controller;

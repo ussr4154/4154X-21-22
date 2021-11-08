@@ -78,6 +78,7 @@ void opcontrol(void);
 #include "CustomHeaders/globals.hpp"
 #include "CustomHeaders/autons.hpp"
 #include "CustomHeaders/lift.hpp"
+#include "CustomHeaders/graphics.hpp"
 
 #endif
 

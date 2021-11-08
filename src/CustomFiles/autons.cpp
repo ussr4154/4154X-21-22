@@ -35,6 +35,22 @@ void goForward(int distance){
   backRight = 0;
 }
 
+void goForwardSlow(int distance){
+
+  frontLeft.tare_position();
+
+  while(frontLeft.get_position() < distance){
+    frontLeft = 76;
+    backLeft = 76;
+    frontRight = 76;
+    backRight = 76;
+  }
+  frontLeft = 0;
+  backLeft = 0;
+  frontRight = 0;
+  backRight = 0;
+}
+
 void goBackward(int distance){
 
   frontLeft.tare_position();
@@ -49,6 +65,82 @@ void goBackward(int distance){
   backLeft = 0;
   frontRight = 0;
   backRight = 0;
+}
+
+void goBackwardSlow(int distance){
+
+  frontLeft.tare_position();
+
+  while(abs(frontLeft.get_position()) < distance){
+    frontLeft = -76;
+    backLeft = -76;
+    frontRight = -76;
+    backRight = -76;
+  }
+  frontLeft = 0;
+  backLeft = 0;
+  frontRight = 0;
+  backRight = 0;
+}
+
+void turnRight(int degrees){
+
+  inertial.tare_rotation();
+
+  float kP = 0.3;
+  float kD = 0.0;
+  float prevError = 0.0;
+
+  while(inertial.get_rotation() < degrees){
+
+    double error = degrees - inertial.get_rotation();
+    double derivative = error - prevError;
+    prevError = error;
+
+    int power = error*kP + derivative*kD;
+
+    frontLeft = power;
+    frontRight = -power;
+    backLeft = power;
+    backRight = -power;
+
+  }
+
+  frontLeft = 0;
+  frontRight = 0;
+  backLeft = 0;
+  backRight = 0;
+
+}
+
+void turnLeft(int degrees){
+
+  inertial.tare_rotation();
+
+  float kP = 0.3;
+  float kD = 0.0;
+  float prevError = 0.0;
+
+  while(fabs(inertial.get_rotation()) < degrees){
+
+    double error = degrees - inertial.get_rotation();
+    double derivative = error - prevError;
+    prevError = error;
+
+    int power = error*kP + derivative*kD;
+
+    frontLeft = -power;
+    frontRight = power;
+    backLeft = -power;
+    backRight = power;
+
+  }
+
+  frontLeft = 0;
+  frontRight = 0;
+  backLeft = 0;
+  backRight = 0;
+
 }
 
 void midGoalAuton(){
@@ -122,8 +214,8 @@ void liftForPlatform(){
 }
 
 void liftForDriving(){
-  if(liftPot.get_value() < 1350){
-    while(liftPot.get_value() < 1350){
+  if(liftPot.get_value() < 1400){
+    while(liftPot.get_value() < 1400){
       leftLift = -127;
       rightLift = -127;
     }
@@ -182,23 +274,16 @@ void rightGoalAuton(){
 
 void leftGoalAuton(){
   
-  backLeft.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-  backRight.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+  goForward(1850);
 
-  chassis->setMaxVelocity(180);
-
-  profileController->generatePath(
-    {{0_ft, 0_ft, 0_deg}, {4.2_ft, 0.8_ft, 0_deg}}, "goal2Mid");
-    profileController->setTarget("goal2Mid");
-    profileController->waitUntilSettled();
   holdToCloseClaw(127);
 
-  pros::delay(500);
+  pros::delay(400);
 
-  profileController->generatePath(
-  {{0_ft, 1_ft, 0_deg}, {4.2_ft, 0_ft, 0_deg}}, "BACK");
-  profileController->setTarget("BACK", true);
-  profileController->waitUntilSettled();
+  goBackward(1650);
+
+  openClaw();
+
 }
 
 void skills(){
@@ -206,18 +291,22 @@ void skills(){
 }
 
 void testerAuton(){
-
-  chassis->setMaxVelocity(160);
+  
+  chassis->setMaxVelocity(100);
 
   lowerDumpTruck();
-  goBackward(500);
+  chassis->moveDistance(-1.4_ft);
   pros::delay(500);
   raiseDumpTruck();
-  goForward(100);
+  chassis->moveDistance(0.3_ft);
   chassis->turnAngle(-5_deg);
-  goForward(300);
-  chassis->turnAngle(-85_deg);
-  goBackward(350);
+  chassis->moveDistance(0.7_ft);
+  chassis->turnAngle(-83_deg);
+
+  frontLeft.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  frontRight.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  backLeft.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  backRight.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   chassis->setMaxVelocity(200);
 
@@ -239,12 +328,52 @@ void testerAuton(){
   profileController->setTarget("goal2Back", true);
   profileController->waitUntilSettled();
 
-  chassis->setState({0_ft,0_ft});
+  chassis->setMaxVelocity(100);
 
-  chassis->turnAngle(90_deg);
+  chassis->turnAngle(75_deg);
 
-  goForward(400);
+  chassis->setMaxVelocity(200);
+
+  goForwardSlow(700);
 
   closeClaw();
+
+  liftForDriving();
+
+  profileController->generatePath(
+    {{0_ft, 0_ft, 0_deg}, {2_ft, 0_ft, 0_deg}}, "goal2Align");
+  profileController->setTarget("goal2Align", true);
+  profileController->waitUntilSettled();
+
+  chassis->turnAngle(88_deg);
+
+  chassis->setMaxVelocity(200);
+
+  lowerDumpTruck();
+
+  profileController->generatePath(
+    {{0_ft, 0_ft, 0_deg}, {7_ft, 0_ft, 0_deg}}, "goal2Score");
+  profileController->setTarget("goal2Score");
+  profileController->waitUntilSettled();
+
+  chassis->turnAngle(-75_deg);
+
+  profileController->setTarget("goal2Score", true);
+  profileController->waitUntilSettled();
+
+  chassis->turnAngle(75_deg);
+  
+  profileController->setTarget("goal2Score");
+  profileController->waitUntilSettled();
+
+   chassis->turnAngle(-75_deg);
+
+  profileController->setTarget("goal2Score", true);
+  profileController->waitUntilSettled();
+
+  chassis->turnAngle(75_deg);
+  
+  profileController->setTarget("goal2Score");
+  profileController->waitUntilSettled();
 
 }

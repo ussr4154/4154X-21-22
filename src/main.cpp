@@ -38,9 +38,9 @@ void autonomous() {
     skills();
   }
 else{*/
-  testerAuton();
-// }
-}
+  leftGoalAuton();
+ }
+
 
 void opcontrol() {
 
